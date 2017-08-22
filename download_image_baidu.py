@@ -13,7 +13,7 @@ def get_page_index(keyword,page):
             'ct': 201326592,
             'is': '',
             'fp':'result',
-            'queryWord':keyword,
+            'queryWord': keyword,
             'cl':2,
             'lm':-1,
             'ie':'utf - 8',
@@ -22,7 +22,7 @@ def get_page_index(keyword,page):
             'st':-1,
             'z':'',
             'ic':0,
-            'word':keyword,
+            'word': keyword,
             's':'',
             'se':'',
             'tab':'',
@@ -38,8 +38,8 @@ def get_page_index(keyword,page):
             'gsm':'1e',
             '1502988509180':''
                              }
-        url='https://image.baidu.com/search/acjson?' + urlencode(data)
         try:
+            url = 'https://image.baidu.com/search/acjson?' + urlencode(data)
             response=requests.get(url)
             if response.status_code==200:
                 return response.text
