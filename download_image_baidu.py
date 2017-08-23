@@ -6,7 +6,7 @@ from hashlib import md5
 import os
 
 def get_page_index(keyword,page):
-    for i in range(30,30*int(page)+30,30):
+    for i in range(30, 30 * int(page) + 30, 30):
         data={
             'tn': 'resultjson_com',
             'ipn':'rj',
@@ -38,10 +38,10 @@ def get_page_index(keyword,page):
             'gsm':'1e',
             '1502988509180':''
                              }
+        url='https://image.baidu.com/search/acjson'+urlencode(data)
         try:
-            url = 'https://image.baidu.com/search/acjson?' + urlencode(data)
-            response=requests.get(url)
-            if response.status_code==200:
+            response = requests.get(url)
+            if response.status_code == 200:
                 return response.text
             return None
         except RequestException:
@@ -67,13 +67,10 @@ def download_images(url):
 
 def save_images(content):
     file_path='{0}/{1}.{2}'.format(os.getcwd(),md5(content).hexdigest(),'jpg')
-#    count=1
     if not os.path.exists(file_path):
         with open(file_path,'wb') as f:
             f.write(content)
             f.close()
-#            count+=1
-#    print('total %d images' %count)
 
 
 def main():
