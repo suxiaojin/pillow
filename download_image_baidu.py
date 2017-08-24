@@ -6,8 +6,9 @@ from hashlib import md5
 import os
 
 def get_page_index(keyword,page):
+    datas=[]
     for i in range(30, 30 * int(page) + 30, 30):
-        data={
+        datas.append({
             'tn': 'resultjson_com',
             'ipn':'rj',
             'ct': 201326592,
@@ -37,16 +38,19 @@ def get_page_index(keyword,page):
             'rn':30,
             'gsm':'1e',
             '1502988509180':''
-                             }
-        url='https://image.baidu.com/search/acjson'+urlencode(data)
-        try:
-            response = requests.get(url)
-            if response.status_code == 200:
-                return response.text
-            return None
-        except RequestException:
-            print('索引页出错')
-            return None
+                             })
+        urls=[]
+        for data in datas:
+            urls.append('https://image.baidu.com/search/acjson?'+urlencode(data))
+            for url in urls:
+                try:
+                    response = requests.get(url)
+                    if response.status_code == 200:
+                        return response.text
+                    return None
+                except RequestException:
+                    print('索引页出错')
+                    return None
 
 def parse_page_index(html):
     data=json.loads(html)
@@ -74,7 +78,7 @@ def save_images(content):
 
 
 def main():
-    obj=input('pls input image object:')
+    obj=str(input('pls input image object:'))
     page=input('pls input pages:')
     html=get_page_index(obj, page)
     if html:
