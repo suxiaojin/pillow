@@ -4,7 +4,7 @@ import json
 from requests.exceptions import RequestException
 from hashlib import md5
 import os
-
+import re
 
 def get_page_index(keyword,page):
     urls = []
@@ -49,11 +49,12 @@ def get_page_index(keyword,page):
             else:
                 continue
         except RequestException:
-            print('索引页出错')
+            print('Not Foung Index')
 
     return urls
 
 def parse_page_index(html):
+    html=re.sub('\'','\"',html)
     data=json.loads(html)
     if data and 'data' in data.keys():
         for item in data.get('data'):
@@ -67,7 +68,7 @@ def download_images(url):
              save_images(response.content)
         return None
     except RequestException:
-        print('请求图片出错',url)
+        print('Error IMG_URL',url)
         return None
 
 def save_images(content):
